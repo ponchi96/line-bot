@@ -92,7 +92,38 @@ class LINEBotTiny
         return $data['events'];
     }
 
-    public function replyMessage($message)
+    public function replyMessageSimple($reply_token,$message_text)
+    {
+		$message = array(
+			'replyToken' => $reply_token,
+			'messages' => array(
+				array(
+					'type' => 'text',
+					'text' => $message_text
+				)
+			)
+		);
+        $header = array(
+            "Content-Type: application/json",
+            'Authorization: Bearer ' . $this->channelAccessToken,
+        );
+
+        $context = stream_context_create(array(
+            "http" => array(
+                "method" => "POST",
+                "header" => implode("\r\n", $header),
+                "content" => json_encode($message),
+            ),
+        ));
+
+        $response = file_get_contents('https://api.line.me/v2/bot/message/reply', false, $context);
+        if (strpos($http_response_header[0], '200') === false) {
+            http_response_code(500);
+            error_log("Request failed: " . $response);
+        }
+    }
+	
+	public function replyMessage($message)
     {
         $header = array(
             "Content-Type: application/json",
