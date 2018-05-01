@@ -35,6 +35,13 @@ Class ExtendPDO extends PDO{
         $this->_stmt = $this->prepare($sql);
         $this->_bind($bind);
         $this->_stmt->execute();
+        return $this->_stmt->fetch();
+    }
+
+    function selectAll($sql,array $bind=[]){
+        $this->_stmt = $this->prepare($sql);
+        $this->_bind($bind);
+        $this->_stmt->execute();
         return $this->_stmt->fetchAll();
     }
 
