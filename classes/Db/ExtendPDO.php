@@ -46,7 +46,7 @@ Class ExtendPDO extends PDO{
     }
 
     function insert($table,array $param=[]){
-        $data = array_merge($this->_data,$param);
+        $data = $param;
         $colums = array_keys($param);
         $values = [];
         $bind = [];
